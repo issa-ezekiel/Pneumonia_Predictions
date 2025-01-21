@@ -4,7 +4,6 @@ from PIL import Image
 from utils import classify, set_background
 
 # Set background image
-[theme]
 backgroundColor = "#FFFFFF"
 
 # Set title 
