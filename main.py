@@ -2,6 +2,7 @@ import streamlit as st
 from keras.models import load_model
 from PIL import Image
 from utils import classify, set_background
+import tensorflow as tf
 
 # Set background image
 backgroundColor = "#00000"
