@@ -4,7 +4,7 @@ from PIL import Image
 from utils import classify, set_background
 
 # Set background image
-backgroundColor = "#FFFFFF"
+backgroundColor = "#00000"
 
 # Set title 
 st.title('Pneumonia Classification')
