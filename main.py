@@ -15,12 +15,17 @@ st.header('Please upload a chest X-ray image')
 # Upload file 
 files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
-# Load classifier model
 # Load the existing model from .h5 file
 model = tf.keras.models.load_model("model/pneumonia_classifier.h5")
 
 # Save the model in .keras format
 model.save("model/pneumonia_classifier.keras")
+import os
+
+model_path = "model/pneumonia_classifier.h5"
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"The model file does not exist at path: {model_path}")
+
 
 # Load class names 
 with open('./model/labels.txt', 'r') as f:
