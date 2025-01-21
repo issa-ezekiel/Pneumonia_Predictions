@@ -7,7 +7,7 @@ from utils import classify, set_background
 backgroundColor = "#00000"
 
 # Set title 
-st.title('Pneumonia Classification')
+st.title('./model/pneumonia_classifier.h5')
 
 # Set header 
 st.header('Please upload a chest X-ray image')
