@@ -20,7 +20,7 @@ import os
 import tensorflow as tf
 
 # Define model path
-model_path = "pneumonia_classifier.h5"
+model_path = "model/pneumonia_classifier.h5"
 
 # Check if file exists
 if not os.path.exists(model_path):
