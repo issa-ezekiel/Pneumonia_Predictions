@@ -39,7 +39,7 @@ except Exception as e:
 
 
 # Save the model in .keras format
-model.save("model/pneumonia_classifier.keras")
+model.save("model/pneumonia_classifier.h5")
 import os
 
 model_path = "model/pneumonia_classifier.h5"
