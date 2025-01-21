@@ -7,7 +7,7 @@ from utils import classify, set_background
 backgroundColor = "#00000"
 
 # Set title 
-st.title('./model/pneumonia_classifier.h5')
+st.title('.Pneumonia Classifier')
 
 # Set header 
 st.header('Please upload a chest X-ray image')
@@ -16,7 +16,7 @@ st.header('Please upload a chest X-ray image')
 files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
 # Load classifier model
-model = load_model("model\pneumonia_classifier.h5")
+model = load_model(r"model\pneumonia_classifier.h5")  # Use raw string
 
 # Load class names 
 with open('./model/labels.txt', 'r') as f:
