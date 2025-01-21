@@ -3,6 +3,7 @@ from keras.models import load_model
 from PIL import Image
 from utils import classify, set_background
 
+# Set background image
 set_background('./bgs/black.jpg')
 
 # Set title 
@@ -12,24 +13,24 @@ st.title('Pneumonia Classification')
 st.header('Please upload a chest X-ray image')
 
 # Upload file 
-files = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
+files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
-# load classifier
+# Load classifier model
 model = load_model('./model/pneumonia_classifier.h5')
 
-# load class names 
+# Load class names 
 with open('./model/labels.txt', 'r') as f:
-    class_names = [a[:-1].split(' ')[1] for a in f.readlines()]
-    f.close()
+    class_names = [line.strip().split(' ')[1] for line in f.readlines()]
 
-# display images 
+# Display image and classify if a file is uploaded 
 if files is not None:
+    # Open and display the image
     image = Image.open(files).convert('RGB')
     st.image(image, use_column_width=True)
 
-    # classify images 
+    # Classify the image
     class_name, conf_score = classify(image, model, class_names)
 
-    # write classification
-    st.write("## {}".format(class_name))
-    st.write("### Score: {}".format(conf_score))
+    # Write classification results
+    st.write("## Predicted Class: {}".format(class_name))
+    st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
