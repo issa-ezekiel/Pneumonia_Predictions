@@ -16,7 +16,7 @@ st.header('Please upload a chest X-ray image')
 files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
 # Load classifier model
-model = load_model("model\pneumonia_classifier.txt")  # Use raw string
+model = load_model("model\pneumonia_classifier.keras")  # Use raw string
 
 # Load class names 
 with open('./model/labels.txt', 'r') as f:
