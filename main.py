@@ -16,7 +16,11 @@ st.header('Please upload a chest X-ray image')
 files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
 # Load classifier model
-model = load_model("model\pneumonia_classifier.H5")  # Use raw string
+# Load the existing model from .h5 file
+model = tf.keras.models.load_model("model/pneumonia_classifier.h5")
+
+# Save the model in .keras format
+model.save("model/pneumonia_classifier.keras")
 
 # Load class names 
 with open('./model/labels.txt', 'r') as f:
