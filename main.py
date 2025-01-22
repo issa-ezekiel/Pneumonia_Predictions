@@ -12,7 +12,7 @@ import numpy as np
 backgroundColor = "#00000"
 
 # Set title 
-st.title('Pneumonia Prediction')
+st.title('Pneumonia Classifier')
 
 # Set header 
 st.header('Please upload a chest X-ray image')
@@ -24,9 +24,6 @@ files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 model_path = os.path.join("model", "pneumonia_classifier.h5")
 labels_path = os.path.join("model", "labels.txt")
 
-# Initialize model variable
-model = None
-
 # Check if model file exists
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"The model file does not exist at path: {model_path}")
@@ -34,9 +31,13 @@ if not os.path.exists(model_path):
 # Try loading the model with error handling
 try:
     model = tf.keras.models.load_model(model_path)
-    st.success("Model loaded successfully.")
+    print("Model loaded successfully.")
+except ValueError as e:
+    print(f"ValueError: {e}")
+except OSError as e:
+    print(f"OSError: Could not load model due to an OS error: {e}")
 except Exception as e:
-    st.error(f"Error loading model: {e}")
+    print(f"An unexpected error occurred: {e}")
 
 # Load class names 
 if not os.path.exists(labels_path):
@@ -49,24 +50,12 @@ with open(labels_path, 'r') as f:
 if files is not None:
     # Open and display the image
     image = Image.open(files).convert('RGB')
-    st.image(image, use_container_width=True)
+    st.image(image, use_container_width=True)  # Updated parameter
 
-    # Check if the model is loaded before classification
-    if model is not None:
-        # Classify the image with error handling
-        try:
-            class_name, conf_score = classify(image, model, class_names)
-            st.write("## Predicted Class: {}".format(class_name))
-            st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
-            
-            # Determine likelihood of pneumonia based on confidence score
-            threshold = 0.5  # You can adjust this threshold based on your requirements
-            if conf_score > threshold:
-                st.write("### Result: The patient is likely to have pneumonia.")
-            else:
-                st.write("### Result: The patient is unlikely to have pneumonia.")
-                
-        except Exception as e:
-            st.error(f"Error during classification: {e}")
-    else:
-        st.error("Model is not loaded. Please check the logs.")
+    # Classify the image with error handling
+    try:
+        class_name, conf_score = classify(image, model, class_names)
+        st.write("## Predicted Class: {}".format(class_name))
+        st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
+    except Exception as e:
+        st.error(f"Error during classification: {e}")
