@@ -4,6 +4,7 @@ from PIL import Image
 from utils import classify, set_background
 import os
 import tensorflow as tf
+import numpy as np
 
 # Set background image
 backgroundColor = "#00000"
