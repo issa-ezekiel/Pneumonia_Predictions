@@ -19,7 +19,7 @@ st.header('Please upload a chest X-ray image')
 files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
 # Define model path
-model_path = os.path.join("pneumonia_classifier.h5")
+model_path = os.path.join("model", "pneumonia_classifier.h5")
 labels_path = os.path.join("model", "labels.txt")
 
 # Check if model file exists
