@@ -1,3 +1,5 @@
+# https://pneumoniapredictions-tgd943nppslyj6scnxeh98.streamlit.app/
+
 import streamlit as st
 from keras.models import load_model
 from PIL import Image
@@ -10,7 +12,7 @@ import numpy as np
 backgroundColor = "#00000"
 
 # Set title 
-st.title('Pneumonia Classifier')
+st.title('Pneumonia Prediction')
 
 # Set header 
 st.header('Please upload a chest X-ray image')
