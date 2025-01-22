@@ -22,6 +22,9 @@ files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 model_path = os.path.join("model", "pneumonia_classifier.h5")
 labels_path = os.path.join("model", "labels.txt")
 
+# Initialize model variable
+model = None
+
 # Check if model file exists
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"The model file does not exist at path: {model_path}")
@@ -29,13 +32,13 @@ if not os.path.exists(model_path):
 # Try loading the model with error handling
 try:
     model = tf.keras.models.load_model(model_path)
-    print("Model loaded successfully.")
+    st.success("Model loaded successfully.")
 except ValueError as e:
-    print(f"ValueError: {e}")
+    st.error(f"ValueError: {e}")
 except OSError as e:
-    print(f"OSError: Could not load model due to an OS error: {e}")
+    st.error(f"OSError: Could not load model due to an OS error: {e}")
 except Exception as e:
-    print(f"An unexpected error occurred: {e}")
+    st.error(f"An unexpected error occurred: {e}")
 
 # Load class names 
 if not os.path.exists(labels_path):
@@ -50,10 +53,14 @@ if files is not None:
     image = Image.open(files).convert('RGB')
     st.image(image, use_container_width=True)  # Updated parameter
 
-    # Classify the image with error handling
-    try:
-        class_name, conf_score = classify(image, model, class_names)
-        st.write("## Predicted Class: {}".format(class_name))
-        st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
-    except Exception as e:
-        st.error(f"Error during classification: {e}")
+    # Check if the model is loaded before classification
+    if model is not None:
+        # Classify the image with error handling
+        try:
+            class_name, conf_score = classify(image, model, class_names)
+            st.write("## Predicted Class: {}".format(class_name))
+            st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
+        except Exception as e:
+            st.error(f"Error during classification: {e}")
+    else:
+        st.error("Model is not loaded. Please check the logs.")
