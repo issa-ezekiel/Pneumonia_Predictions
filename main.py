@@ -52,9 +52,10 @@ if files is not None:
 
     # Classify the image with error handling
     try:
-        class_name, conf_score = classify(image, class_names)
+        class_name, conf_score = classify(image, model, class_names)
         st.write("## Predicted Class: {}".format(class_name))
         st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
     except Exception as e:
         st.error(f"Error during classification: {e}")
+
 
