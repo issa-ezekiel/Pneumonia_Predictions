@@ -48,11 +48,13 @@ with open(labels_path, 'r') as f:
 if files is not None:
     # Open and display the image
     image = Image.open(files).convert('RGB')
-    st.image(image, use_column_width=True)
+    st.image(image, use_container_width=True)  # Updated parameter
 
-    # Classify the image
-    class_name, conf_score = classify(image, model, class_names)
+    # Classify the image with error handling
+    try:
+        class_name, conf_score = classify(image, model, class_names)
+        st.write("## Predicted Class: {}".format(class_name))
+        st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
+    except Exception as e:
+        st.error(f"Error during classification: {e}")
 
-    # Write classification results
-    st.write("## Predicted Class: {}".format(class_name))
-    st.write("### Confidence Score: {:.2f}%".format(conf_score * 100))  # Display score as a percentage
