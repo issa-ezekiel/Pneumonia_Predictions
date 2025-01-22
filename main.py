@@ -2,6 +2,8 @@ import streamlit as st
 from keras.models import load_model
 from PIL import Image
 from utils import classify, set_background
+import os
+import tensorflow as tf
 
 # Set background image
 backgroundColor = "#00000"
@@ -15,14 +17,11 @@ st.header('Please upload a chest X-ray image')
 # Upload file 
 files = st.file_uploader('Upload Image', type=['jpeg', 'jpg', 'png'])
 
-# Load the existing model from .h5 file
-import os
-import tensorflow as tf
-
 # Define model path
-model_path = "model/pneumonia_classifier.h5"
+model_path = os.path.join("model", "pneumonia_classifier.h5")
+labels_path = os.path.join("model", "labels.txt")
 
-# Check if file exists
+# Check if model file exists
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"The model file does not exist at path: {model_path}")
 
@@ -37,18 +36,11 @@ except OSError as e:
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
 
-
-# Save the model in .keras format
-model.save("model/pneumonia_classifier.h5")
-import os
-
-model_path = "model/pneumonia_classifier.h5"
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"The model file does not exist at path: {model_path}")
-
-
 # Load class names 
-with open('./model/labels.txt', 'r') as f:
+if not os.path.exists(labels_path):
+    raise FileNotFoundError(f"The labels file does not exist at path: {labels_path}")
+
+with open(labels_path, 'r') as f:
     class_names = [line.strip().split(' ')[1] for line in f.readlines()]
 
 # Display image and classify if a file is uploaded 
