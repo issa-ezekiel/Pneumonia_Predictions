@@ -6,9 +6,8 @@ import os
 import tensorflow as tf
 import numpy as np
 
-# Set background image (if needed)
-# Uncomment and specify the path if you want to set a background image
-# set_background("path/to/background/image.png")
+# Set background image
+backgroundColor = "#00000"
 
 # Set title 
 st.title('Pneumonia Classifier')
@@ -31,8 +30,12 @@ if not os.path.exists(model_path):
 try:
     model = tf.keras.models.load_model(model_path)
     print("Model loaded successfully.")
+except ValueError as e:
+    print(f"ValueError: {e}")
+except OSError as e:
+    print(f"OSError: Could not load model due to an OS error: {e}")
 except Exception as e:
-    st.error(f"Error loading model: {e}")
+    print(f"An unexpected error occurred: {e}")
 
 # Load class names 
 if not os.path.exists(labels_path):
@@ -45,7 +48,7 @@ with open(labels_path, 'r') as f:
 if files is not None:
     # Open and display the image
     image = Image.open(files).convert('RGB')
-    st.image(image, use_container_width=True)
+    st.image(image, use_container_width=True)  # Updated parameter
 
     # Classify the image with error handling
     try:
