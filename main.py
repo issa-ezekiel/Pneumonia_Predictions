@@ -12,7 +12,7 @@ import numpy as np
 backgroundColor = "#00000"
 
 # Set title 
-st.title('Pneumonia Classifier')
+st.title('Pneumonia Predictions')
 
 # Set header 
 st.header('Please upload a chest X-ray image')
